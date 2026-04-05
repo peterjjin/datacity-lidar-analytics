@@ -1,0 +1,81 @@
+{
+  "scene_name": "AlbanyNeilson_DATA_20240201_213000",
+  "algorithms": [
+    {
+      "name": "oracle_copy",
+      "type": "synthetic",
+      "mode": "oracle",
+      "enabled": true
+    },
+    {
+      "name": "empty_predictor",
+      "type": "synthetic",
+      "mode": "empty",
+      "enabled": true
+    },
+    {
+      "name": "mmdet3d_pointpillars_car",
+      "type": "mmdet3d_kitti",
+      "enabled": true,
+      "config": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/configs/mmdet3d_pointpillars_car.py",
+      "checkpoint": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/checkpoints/mmdet3d_pointpillars_kitti.pth",
+      "env": "lidar-3d-base",
+      "work_dir": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/runs/mmdet3d_pointpillars_car",
+      "submission_prefix": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/runs/mmdet3d_pointpillars_car/submission"
+    },
+    {
+      "name": "openpcdet_second_car",
+      "type": "openpcdet_kitti",
+      "enabled": true,
+      "config": "/home/datacity/src/OpenPCDet/tools/cfgs/kitti_models/second.yaml",
+      "checkpoint": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/checkpoints/openpcdet_second_kitti.pth",
+      "env": "lidar-openpcdet",
+      "extra_pythonpath": "/tmp/openpcdet_patched:/tmp/openpcdet_extra_py",
+      "extra_tag": "neilson_second_car",
+      "eval_tag": "neilson_eval",
+      "batch_size": 1,
+      "workers": 0,
+      "work_dir": "/home/datacity/src/OpenPCDet/output/kitti_models/second/neilson_second_car/eval",
+      "set_cfgs": [
+        "DATA_CONFIG.DATA_PATH",
+        "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/data/neilson_car_kitti",
+        "DATA_CONFIG.DATA_SPLIT.test",
+        "val",
+        "DATA_CONFIG.FOV_POINTS_ONLY",
+        "False"
+      ]
+    },
+    {
+      "name": "openpcdet_pointpillar_car",
+      "type": "openpcdet_kitti",
+      "enabled": true,
+      "config": "/home/datacity/src/OpenPCDet/tools/cfgs/kitti_models/pointpillar.yaml",
+      "checkpoint": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/checkpoints/openpcdet_pointpillar_kitti.pth",
+      "env": "lidar-openpcdet",
+      "extra_pythonpath": "/tmp/openpcdet_patched:/tmp/openpcdet_extra_py",
+      "extra_tag": "neilson_pointpillar_car",
+      "eval_tag": "neilson_eval",
+      "batch_size": 1,
+      "workers": 0,
+      "work_dir": "/home/datacity/src/OpenPCDet/output/kitti_models/pointpillar/neilson_pointpillar_car/eval",
+      "set_cfgs": [
+        "DATA_CONFIG.DATA_PATH",
+        "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/data/neilson_car_kitti",
+        "DATA_CONFIG.DATA_SPLIT.test",
+        "val",
+        "DATA_CONFIG.FOV_POINTS_ONLY",
+        "False"
+      ]
+    },
+    {
+      "name": "open3dml_pointpillars_kitti",
+      "type": "open3dml_kitti",
+      "enabled": true,
+      "checkpoint": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/experiments/neilson_car/checkpoints/open3dml_pointpillars_kitti.pth",
+      "env": "lidar-open3d-ml",
+      "data_root": "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/data/neilson_car_kitti",
+      "device": "cuda",
+      "val_split": 4164
+    }
+  ]
+}

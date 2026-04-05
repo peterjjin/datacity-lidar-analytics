@@ -1,0 +1,23 @@
+{
+  "recipes": [
+    {
+      "name": "open3dml_pointpillars_kitti",
+      "cmd": [
+        "bash",
+        "-lc",
+        "source /home/datacity/miniforge3/etc/profile.d/conda.sh && conda activate lidar-open3d-ml && export NVCC_PREPEND_FLAGS=${NVCC_PREPEND_FLAGS-} && export NEILSON_CAR_KITTI_ROOT=/home/datacity/lidar-analytics/data/neilson_car_kitti && python -c 'import runpy, sys; sys.argv = ['\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/scripts/require_cuda.py'\"'\"', '\"'\"'--label'\"'\"', '\"'\"'Open3D-ML (lidar-open3d-ml)'\"'\"', '\"'\"'--require-arch'\"'\"']; runpy.run_path(sys.argv[0], run_name=\"__main__\")' && python -c 'import runpy, sys; sys.argv = ['\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/scripts/prepare_open3dml_dataset.py'\"'\"']; runpy.run_path(sys.argv[0], run_name=\"__main__\")' && python -c 'import runpy, sys; sys.argv = ['\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/scripts/train_open3dml_pointpillars.py'\"'\"', '\"'\"'--config'\"'\"', '\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/configs/open3dml_pointpillars_car.yml'\"'\"', '\"'\"'--data-root'\"'\"', '\"'\"'/home/datacity/lidar-analytics/data/neilson_car_kitti'\"'\"', '\"'\"'--checkpoint'\"'\"', '\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/checkpoints/open3dml_pointpillars_kitti.pth'\"'\"', '\"'\"'--run-root'\"'\"', '\"'\"'/home/datacity/lidar-analytics/experiments/neilson_car/runs/open3dml_pointpillars_car_finetune'\"'\"', '\"'\"'--device'\"'\"', '\"'\"'cuda'\"'\"', '\"'\"'--val-split'\"'\"', '\"'\"'2687'\"'\"', '\"'\"'--max-epoch'\"'\"', '\"'\"'24'\"'\"', '\"'\"'--num-workers'\"'\"', '\"'\"'12'\"'\"']; runpy.run_path(sys.argv[0], run_name=\"__main__\")'"
+      ],
+      "status": "completed",
+      "started_at": "2026-04-04 22:21:21",
+      "completed_at": "2026-04-04 23:09:49",
+      "elapsed": "46:44"
+    }
+  ],
+  "epochs": 24,
+  "run_tag": "finetune",
+  "log_path": "/home/datacity/lidar-analytics/logs/training_log_20260404_222121.log",
+  "started_at": "2026-04-04 22:21:21",
+  "updated_at": "2026-04-04 23:09:49",
+  "total_elapsed": "46:44",
+  "status": "completed"
+}

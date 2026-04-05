@@ -1,0 +1,23 @@
+name: lidar-open3d-ml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - git
+  - numpy<2
+  - scipy
+  - pandas
+  - scikit-learn
+  - scikit-image
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - pillow
+  - shapely
+  - pyquaternion
+  - jupyterlab
+  - ipython
+  - pip:
+      - open3d
+      - tensorboard

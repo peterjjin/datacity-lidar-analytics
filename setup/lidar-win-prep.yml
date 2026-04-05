@@ -1,0 +1,21 @@
+name: lidar-win-prep
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy<2
+  - scipy
+  - pandas
+  - pyarrow
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - pillow
+  - laspy
+  - notebook
+  - jupyterlab
+  - ipython
+  - pip:
+      - open3d
+      - pyvista

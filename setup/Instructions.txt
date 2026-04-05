@@ -1,0 +1,72 @@
+Use the scripts I added rather than doing this manually. The key files are [install-wsl-ubuntu.ps1](d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics\setup\install-wsl-ubuntu.ps1), [bootstrap-wsl-lidar.sh](d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics\setup\bootstrap-wsl-lidar.sh), [wsl-doctor.sh](d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics\setup\wsl-doctor.sh), and [README.md](d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics\setup\README.md).
+
+Windows
+
+Open a new PowerShell window as Administrator.
+Change into the project folder:
+cd "d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics"
+Install WSL2 and Ubuntu 22.04:
+powershell -ExecutionPolicy Bypass -File .\setup\install-wsl-ubuntu.ps1 -Install
+If Windows asks for a reboot, reboot.
+Launch Ubuntu 22.04 from the Start menu.
+When Ubuntu starts the first time, create your Linux username and password.
+Ubuntu
+
+In the Ubuntu terminal, move to the shared workspace and run the bootstrap in two stages. Start with the base env plus PyTorch:
+bash "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/setup/bootstrap-wsl-lidar.sh" --with-torch
+Verify that WSL, GPU access, Miniforge, and PyTorch all work:
+bash "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/setup/wsl-doctor.sh"
+Confirm PyTorch sees the GPU:
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate lidar-3d-base
+python -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no-gpu')"
+If that succeeds, install MMDetection3D:
+bash "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/setup/bootstrap-wsl-lidar.sh" --with-mmdet3d
+Run the doctor again:
+bash "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/setup/wsl-doctor.sh"
+VS Code
+
+Open VS Code.
+Install the recommended extensions from [extensions.json](d:\Dropbox\_Rutgers\2026.03.14 Open3D-ML LiDAR Analytics\.vscode\extensions.json) if prompted.
+Press Ctrl+Shift+P, run WSL: Connect to WSL.
+Open this folder from the WSL side:
+/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics
+Open a terminal in that WSL window and activate the env:
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate lidar-3d-base
+Press Ctrl+Shift+P, run Python: Select Interpreter, and choose:
+~/miniforge3/envs/lidar-3d-base/bin/python
+Smoke test
+Run this inside the VS Code WSL terminal:
+
+python -c "import torch, mmdet3d; print(torch.cuda.is_available()); print(mmdet3d.__version__)"
+Important note
+Use the WSL Miniforge/conda for detector work. Do not try to reuse the Windows Anaconda install from inside WSL.
+
+If the PyTorch step fails on the RTX 5090, check the current selector at https://pytorch.org/get-started/locally/ and rerun with a different wheel index, for example:
+
+PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu124" bash "/mnt/d/Dropbox/_Rutgers/2026.03.14 Open3D-ML LiDAR Analytics/setup/bootstrap-wsl-lidar.sh" --with-torch
+I validated the Windows installer script here. I could not execute the Ubuntu-side commands myself because WSL is not installed yet on this machine. If you hit an error on any step, send me the exact terminal output from that step and I’ll adjust the setup.
+
+where do I download WSL?
+https://ubuntu.com/desktop/wsl?
+
+I’m checking the current official Microsoft and Ubuntu install paths so I can tell you which link to trust and which one is just informational.
+
+Searched web for site:learn.microsoft.com/windows/wsl/install official WSL install Windows 11
+Worked for 1m 16s
+Use Microsoft’s installer path, not the Ubuntu marketing page.
+
+The current official way is:
+
+wsl --install -d Ubuntu-22.04
+Run that in an elevated PowerShell window, then reboot if prompted. WSL itself is part of Windows; you generally do not “download WSL” separately from Ubuntu’s site. Microsoft’s install guide is here: https://learn.microsoft.com/en-us/windows/wsl/install
+
+The Ubuntu page you linked is fine as background and for Ubuntu-on-WSL details, but it is not the primary install path for WSL itself: https://ubuntu.com/desktop/wsl
+
+If wsl --install stalls, Microsoft also documents:
+
+wsl --install --web-download -d Ubuntu-22.04
+Source: Microsoft Learn WSL install page, last updated August 6, 2025, and Ubuntu’s WSL page.
+
+

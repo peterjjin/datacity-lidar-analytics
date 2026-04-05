@@ -1,0 +1,20 @@
+name: lidar-openpcdet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - git
+  - cmake
+  - ninja
+  - numpy<2
+  - scipy
+  - scikit-image
+  - pyyaml
+  - numba
+  - tensorboard
+  - ipython
+  - pip:
+      - easydict
+      - tqdm
+      - fire

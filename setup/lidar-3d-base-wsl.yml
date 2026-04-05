@@ -1,0 +1,34 @@
+name: lidar-3d-base
+channels:
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - git
+  - git-lfs
+  - cmake
+  - ninja
+  - numpy<2
+  - scipy
+  - scikit-image
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - numba
+  - shapely
+  - pyquaternion
+  - pillow
+  - pandas
+  - tensorboard
+  - ipython
+  - jupyterlab
+  - cuda-toolkit=12.8.1
+  - pip:
+      - "numpy<2"
+      - openmim
+      - av2
+      - easydict
+      - fire
+      - imageio

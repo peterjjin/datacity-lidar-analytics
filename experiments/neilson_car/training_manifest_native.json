@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-04-04 03:44:03",
+  "log_path": "/home/datacity/lidar-analytics/logs/training_log_20260404_031709.log",
+  "epochs": 24,
+  "workers": 12,
+  "run_tag": "finetune",
+  "open3d_device": "cuda",
+  "data_root": "/home/datacity/lidar-analytics/data/neilson_car_kitti",
+  "recipes": [
+    {
+      "name": "mmdet3d_pointpillars_car",
+      "env": "lidar-3d-base",
+      "command": "\nsource \"/home/datacity/miniforge3/etc/profile.d/conda.sh\" &&\nconda activate lidar-3d-base &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   python -c \"import torch; ok=torch.cuda.is_available(); print(ok, torch.cuda.get_device_name(0) if ok else 'no-gpu'); raise SystemExit(0 if ok else 1)\" &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   python \"/home/datacity/lidar-analytics/experiments/neilson_car/scripts/prepare_mmdet_infos.py\" &&\nmkdir -p \"/home/datacity/lidar-analytics/experiments/neilson_car/runs/mmdet3d_pointpillars_car_finetune\" &&\ncd \"/home/datacity/src/mmdetection3d\" &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   NVCC_PREPEND_FLAGS=\"${NVCC_PREPEND_FLAGS-}\"   MPLCONFIGDIR=\"${MPLCONFIGDIR:-/tmp/matplotlib}\"   XDG_CACHE_HOME=\"${XDG_CACHE_HOME:-/tmp/.cache}\"   MMDET3D_LOAD_FROM=\"/home/datacity/lidar-analytics/experiments/neilson_car/checkpoints/mmdet3d_pointpillars_kitti.pth\"   MMDET3D_TRAIN_WORKERS=\"12\"   MMDET3D_VAL_WORKERS=\"12\"   MMDET3D_VAL_INTERVAL=\"25\"   PYTHONPATH=\"/home/datacity/src/mmdetection3d\"   python \"/home/datacity/src/mmdetection3d/tools/train.py\"   \"/home/datacity/lidar-analytics/experiments/neilson_car/configs/mmdet3d_pointpillars_car.py\"   --work-dir \"/home/datacity/lidar-analytics/experiments/neilson_car/runs/mmdet3d_pointpillars_car_finetune\"   --cfg-options train_cfg.val_interval=25 train_cfg.max_epochs=24\n"
+    },
+    {
+      "name": "openpcdet_pointpillar_car",
+      "env": "lidar-openpcdet",
+      "command": "\nsource \"/home/datacity/miniforge3/etc/profile.d/conda.sh\" &&\nconda activate lidar-openpcdet &&\nenv NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\" python \"/home/datacity/lidar-analytics/experiments/neilson_car/scripts/bootstrap_openpcdet_runtime.py\" &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   PYTHONPATH=\"/tmp/openpcdet_patched:/tmp/openpcdet_extra_py${PYTHONPATH:+:$PYTHONPATH}\"   python \"/home/datacity/lidar-analytics/experiments/neilson_car/scripts/require_cuda.py\" --label openpcdet &&\ntest -d \"/tmp/openpcdet_patched/tools\" &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   PYTHONPATH=\"/tmp/openpcdet_patched:/tmp/openpcdet_extra_py${PYTHONPATH:+:$PYTHONPATH}\"   python -c \"import runpy; runpy.run_path('/home/datacity/lidar-analytics/experiments/neilson_car/scripts/prepare_openpcdet_infos.py', run_name='__main__')\" &&\npython3 - <<'PY'\nfrom pathlib import Path\nimport yaml\nsrc = Path(\"/home/datacity/lidar-analytics/experiments/neilson_car/configs/openpcdet_pointpillar_car.yaml\")\ndst = Path(\"/tmp/openpcdet_pointpillar_car.subset.yaml\")\npayload = yaml.safe_load(src.read_text(encoding=\"utf-8\"))\npayload[\"DATA_CONFIG\"][\"DATA_PATH\"] = \"/home/datacity/lidar-analytics/data/neilson_car_kitti\"\ndst.write_text(yaml.safe_dump(payload, sort_keys=False), encoding=\"utf-8\")\nprint(dst)\nPY\ncd \"/tmp/openpcdet_patched/tools\" &&\nenv   NEILSON_CAR_KITTI_ROOT=\"/home/datacity/lidar-analytics/data/neilson_car_kitti\"   NVCC_PREPEND_FLAGS=\"${NVCC_PREPEND_FLAGS-}\"   PYTHONPATH=\"/tmp/openpcdet_patched:/tmp/openpcdet_extra_py${PYTHONPATH:+:$PYTHONPATH}\"   python -c \"import runpy, sys; sys.argv=['train.py', '--cfg_file', '/tmp/openpcdet_pointpillar_car.subset.yaml', '--extra_tag', 'neilson_pointpillar_finetune', '--workers', '12', '--batch_size', '4', '--epochs', '24', '--pretrained_model', '/home/datacity/lidar-analytics/experiments/neilson_car/checkpoints/openpcdet_pointpillar_kitti.pth']; runpy.run_path('/tmp/openpcdet_patched/tools/train.py', run_name='__main__')\"\n"
+    }
+  ]
+}
