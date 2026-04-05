@@ -46,3 +46,6 @@ experiments/neilson_car/oracle_copy/
 *.bin
 *.tfevents.*
 
+# External workspaces live outside this repo and should stay external.
+autoware_core_workspace/
+autoware_workspace/

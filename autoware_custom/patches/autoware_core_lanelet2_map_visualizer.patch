@@ -1,0 +1,13 @@
+diff --git a/map/autoware_lanelet2_map_visualizer/src/lanelet2_map_visualization_node.cpp b/map/autoware_lanelet2_map_visualizer/src/lanelet2_map_visualization_node.cpp
+index f8a0378c..5819380a 100644
+--- a/map/autoware_lanelet2_map_visualizer/src/lanelet2_map_visualization_node.cpp
++++ b/map/autoware_lanelet2_map_visualizer/src/lanelet2_map_visualization_node.cpp
+@@ -328,7 +328,7 @@ void Lanelet2MapVisualizationNode::on_map_bin(
+     &map_marker_array,
+     lanelet::visualization::lineStringsAsMarkerArray(waypoints, "waypoints", cl_waypoints, 0.02));
+   insert_marker_array(
+-    &map_marker_array, lanelet::visualization::obstacleRemovalAreaAsMarkerArray(
++    &map_marker_array, lanelet::visualization::obstaclePolygonsAsMarkerArray(
+                          obstacle_removal_areas, cl_obstacle_removal_area));
+
+   pub_marker_->publish(map_marker_array);
